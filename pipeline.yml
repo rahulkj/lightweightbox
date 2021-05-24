@@ -1,0 +1,40 @@
+---
+jobs:
+- name: build-docker-image
+  public: true
+  serial: true
+  plan:
+  - in_parallel:
+    - get: schedule
+      trigger: true
+    - get: git-repo
+      trigger: true
+  - put: docker-image
+    params:
+      build: git-repo/ci
+
+resources:
+- name: schedule
+  type: time
+  source:
+    interval: 24h
+    start: "12:00 AM"
+    stop: "11:59 PM"
+    location: America/Los_Angeles
+    days: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+
+- name: git-repo
+  type: git
+  source:
+    uri: ((git_url))
+    branch: ((git_branch))
+    username: ((git_credentials.username))
+    password: ((git_credentials.password))
+
+- name: docker-image
+  type: docker-image
+  source:
+    email: ((docker_hub_email))
+    username: ((docker_hub_credentials.username))
+    password: ((docker_hub_credentials.password))
+    repository: ((docker_hub_repository))
