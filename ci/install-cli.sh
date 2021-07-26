@@ -2,9 +2,6 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-declare -a DEPENDENCIES=(tar wget gzip ruby gem jq curl)
-
-LOGFILE=/dev/null
 OUTPUT=/usr/local/bin
 
 REPO_CREDHUB=cloudfoundry-incubator/credhub-cli
@@ -16,8 +13,6 @@ get_latest_release() {
 }
 
 install_credhub() {
-    log 'Installing credhub'
-
     get_latest_release "$REPO_CREDHUB" "linux"
 
     wget -qO "$OUTPUT"/credhub.tgz "$DOWNLOAD_URL"
