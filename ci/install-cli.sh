@@ -7,7 +7,7 @@ OUTPUT=/usr/local/bin
 REPO_CREDHUB=cloudfoundry-incubator/credhub-cli
 
 get_latest_release() {
-    DOWNLOAD_URL=$(curl "https://api.github.com/repos/$1/releases/latest" | \
+    DOWNLOAD_URL=$(curl --silent "https://api.github.com/repos/$1/releases/latest" | \
       jq -r \
       --arg flavor $2 '.assets[] | select(.name | contains($flavor)) | .browser_download_url')
 }
@@ -25,7 +25,7 @@ install_credhub() {
     echo "credhub cli:" $(credhub --version)
 }
 
-apt-get update && apt-get install -y --no-install-recommends jq curl wget \
+apt-get update && apt-get install -y --no-install-recommends jq curl wget ca-certificates \
   && apt-get autoremove \
   && wget --no-check-certificate "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64.tar.gz" -O - | tar xz && mv yq_linux_amd64 ${OUTPUT}/yq \
   && wget --no-check-certificate "https://github.com/vmware/govmomi/releases/latest/download/govc_$(uname -s)_$(uname -m).tar.gz" -O - | tar -C ${OUTPUT} -xvzf - govc \
