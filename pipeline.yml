@@ -16,6 +16,7 @@ jobs:
 resources:
 - name: schedule
   type: time
+  icon: camera-timer
   source:
     interval: 24h
     start: "12:00 AM"
@@ -25,6 +26,7 @@ resources:
 
 - name: git-repo
   type: git
+  icon: github
   source:
     uri: ((git_url))
     branch: ((git_branch))
@@ -33,6 +35,7 @@ resources:
 
 - name: docker-image
   type: docker-image
+  icon: docker
   source:
     email: ((docker_hub_email))
     username: ((docker_hub_credentials.username))
