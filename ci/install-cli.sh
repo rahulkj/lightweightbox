@@ -7,7 +7,7 @@ OUTPUT=/usr/local/bin
 REPO_CREDHUB=cloudfoundry-incubator/credhub-cli
 
 get_latest_release() {
-    DOWNLOAD_URL=$(curl --silent "https://api.github.com/repos/$1/releases/latest" | \
+    DOWNLOAD_URL=$(curl -L --silent "https://api.github.com/repos/$1/releases/latest" | \
       jq -r \
       --arg flavor $2 '.assets[] | select(.name | contains($flavor)) | .browser_download_url')
 }
