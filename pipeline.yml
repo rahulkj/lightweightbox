@@ -13,9 +13,11 @@ jobs:
     - put: docker-image
       params:
         build: git-repo/ci
+      get_params: {skip_download: true}
     - put: internal-registry
       params:
         build: git-repo/ci
+      get_params: {skip_download: true}
 
 resources:
 - name: schedule
